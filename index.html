@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Мониторинг опроса — мобильные приложения СКС Ломбард</title>
+<style>
+:root{
+  --brand:#e31e24; --brand-dark:#bd2027; --brand-soft:#fde9ea;
+  --bg:#f5f5f5; --panel:#ffffff; --panel2:#fafafa;
+  --ink:#121212; --ink2:#333333; --muted:#919191;
+  --line:#e2e2e2; --line2:#f1f1f1;
+  --good:#2e7d32; --good-soft:#e8f3e9;
+  --warn2:#c2762a; --warn2-soft:#fbeee1;
+  --neg:#c1544f; --neg-soft:#fbeceb;
+  --radius:6px; --shadow:0 1px 2px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#141516; --panel:#1c1d1f; --panel2:#232426;
+    --ink:#f2f2f2; --ink2:#d4d4d4; --muted:#8f9296;
+    --line:#2e3033; --line2:#26282a; --brand-soft:#3a1a1c;
+    --good-soft:#1c2a1e; --warn2-soft:#2c2118; --neg-soft:#33211f;
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg)}
+body{color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased}
+.page{padding:0 0 60px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+header.top{background:var(--panel);border-bottom:1px solid var(--line);padding:26px 0 22px;margin-bottom:24px;
+  box-shadow:var(--shadow);border-top:4px solid var(--brand)}
+header.top .wrap{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:11px;margin-bottom:9px}
+.brand .mark{background:var(--brand);color:#fff;font-weight:800;font-size:13px;letter-spacing:.5px;
+  padding:5px 10px;border-radius:3px;line-height:1}
+.brand .co{font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.3px;text-transform:uppercase}
+.h-title{font-size:26px;font-weight:750;letter-spacing:-.4px;line-height:1.15;margin:0;color:var(--ink)}
+.h-sub{color:var(--muted);font-size:13px;margin-top:9px;max-width:76ch}
+.h-meta{text-align:right;font-size:12.5px;color:var(--muted);white-space:nowrap}
+.h-meta .d{color:var(--ink2);font-weight:600}
+.h-meta .auto{font-size:11px;color:var(--muted);margin-top:3px;opacity:.85}
+
+h2.sec{font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--muted);
+  margin:30px 0 13px;padding-left:10px;border-left:3px solid var(--brand)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.note{background:var(--warn2-soft);border:1px solid var(--warn2);border-radius:var(--radius);
+  padding:10px 14px;font-size:12.5px;color:var(--ink2);margin-bottom:14px}
+
+.emp-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 12px}
+.emp-kpis article{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--ink2);
+  border-radius:var(--radius);padding:13px 14px;display:flex;gap:10px;align-items:center;min-height:76px;
+  box-shadow:var(--shadow)}
+.emp-kpis article.good{border-top-color:var(--good)}
+.emp-kpis article.warn{border-top-color:var(--warn2)}
+.emp-kpis article.bad{border-top-color:var(--brand)}
+.emp-kpis b{font-size:22px;line-height:1;white-space:nowrap}
+.emp-kpis span{font-size:11.5px;color:var(--muted);line-height:1.3}
+.emp-kpi-note{display:block;margin-top:4px;color:var(--ink2);font-size:10.5px;font-weight:700}
+
+.emp-legend{display:flex;align-items:center;flex-wrap:wrap;gap:9px 16px;background:var(--panel2);
+  border:1px solid var(--line);padding:9px 12px;border-radius:var(--radius);font-size:11.5px;
+  color:var(--ink2);margin-bottom:14px}
+.emp-legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px}
+.emp-legend i.yes{background:var(--good)}
+.emp-legend i.need{background:var(--warn2)}
+.emp-legend i.no{background:var(--brand)}
+.emp-legend small{margin-left:auto;color:var(--muted)}
+
+.emp-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 10px}
+.emp-seg{display:flex;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--panel)}
+.emp-seg button{border:0;border-right:1px solid var(--line);background:transparent;color:var(--ink2);
+  padding:8px 10px;font:inherit;font-size:12px;font-weight:700;cursor:pointer}
+.emp-seg button:last-child{border:0}
+.emp-seg button.active{background:var(--ink);color:var(--panel)}
+.emp-seg button span{opacity:.75;margin-left:3px}
+.emp-select,.emp-search{height:37px;border:1px solid var(--line);border-radius:var(--radius);
+  background:var(--panel);color:var(--ink);padding:0 10px;font:inherit;font-size:12px}
+.emp-search{flex:1 1 220px;min-width:190px}
+.emp-count{font-size:11.5px;color:var(--muted);white-space:nowrap}
+
+.emp-panel{overflow:hidden}
+.emp-table-scroll{overflow:auto;max-height:68vh}
+.emp-table{width:100%;min-width:900px;border-collapse:collapse;font-size:12.5px}
+.emp-table thead{position:sticky;top:0;z-index:2}
+.emp-table th{background:var(--panel2);text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);
+  white-space:nowrap}
+.emp-table th[data-sort]{cursor:pointer}
+.emp-table th[data-sort]::after{content:" \2195";color:var(--muted);font-size:10px}
+.emp-table td{padding:8px 10px;border-bottom:1px solid var(--line2);vertical-align:top}
+.emp-table tr:hover td{background:var(--panel2)}
+.emp-table tr[data-status="both"]{border-left:4px solid var(--good)}
+.emp-table tr[data-status="one"]{border-left:4px solid var(--warn2);background:var(--warn2-soft)}
+.emp-table tr[data-status="none"]{border-left:4px solid var(--brand);background:var(--brand-soft)}
+.emp-fio{font-weight:700;color:var(--ink)}
+.emp-sub{display:block;color:var(--muted);font-size:10.5px;margin-top:2px}
+.emp-pill{display:inline-block;border-radius:999px;padding:3px 8px;font-weight:750;font-size:10.5px;
+  white-space:nowrap}
+.emp-pill.both{background:var(--good-soft);color:var(--good)}
+.emp-pill.one{background:var(--warn2-soft);color:var(--warn2)}
+.emp-pill.none{background:var(--brand-soft);color:var(--brand)}
+.emp-mark{font-weight:800}
+.emp-mark.on{color:var(--good)}
+.emp-mark.off{color:var(--muted);font-weight:400}
+
+.emp-coverage{padding:15px 17px}
+.emp-coverage h3{margin:17px 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
+.emp-coverage-note{font-size:12px;color:var(--ink2)}
+.emp-bars{display:grid;gap:8px}
+.emp-bar{display:grid;grid-template-columns:minmax(190px,1fr) minmax(260px,2fr) 84px;gap:12px;align-items:center}
+.emp-bar-name{font-size:11.5px;font-weight:700}
+.emp-bar-track{display:flex;height:12px;border-radius:999px;background:var(--line2);overflow:hidden}
+.emp-bar-track i{display:block;height:100%}
+.emp-bar-track .yes{background:var(--good)}
+.emp-bar-track .need{background:var(--warn2)}
+.emp-bar-track .no{background:var(--brand)}
+.emp-bar-value{text-align:right;font-size:11px;color:var(--muted)}
+
+footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);
+  text-align:center}
+
+@media(max-width:960px){
+  .emp-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .emp-legend small{width:100%;margin-left:0}
+}
+@media(max-width:680px){
+  header.top .wrap{display:block}
+  .h-meta{text-align:left;margin-top:8px}
+  .emp-kpis{grid-template-columns:1fr}
+  .emp-seg{width:100%;overflow:auto}
+  .emp-seg button{white-space:nowrap}
+  .emp-select,.emp-search{width:100%}
+  .emp-bar{grid-template-columns:1fr 62px}
+  .emp-bar-track{grid-column:1/-1;grid-row:2}
+  .emp-table-scroll{max-height:none}
+}
+</style>
+</head>
+<body><div class="page">
+  <header class="top"><div class="wrap">
+    <div>
+      <div class="brand"><span class="mark">СКС</span><span class="co">Ломбард</span></div>
+      <h1 class="h-title">Мониторинг опроса по методичке — мобильные приложения</h1>
+      <div class="h-sub">Интервью сотрудников через Telegram-бота: сценарий «клиентское мобильное приложение» и сценарий «мобильное приложение для сотрудников». Свод читается напрямую из готовых документов бота (storage/output), без обращения к БД.</div>
+    </div>
+    <div class="h-meta">
+      <div class="d">снимок на 21.08.2026 14:43:50</div>
+      <div class="auto">статический снимок — обновляется пересборкой, не сам по себе</div>
+    </div>
+  </div></header>
+
+  <section class="wrap">
+<div class='note'>⚠️ Справочник сотрудников (storage/directory/current.json) не найден рядом с выводом бота — показаны только те, кто уже прислал ответ. Кто вообще не начинал и точный процент от штата — неизвестны, пока файл не появится на томе storage/.</div>
+    <div class="emp-kpis"><article class=''><b>13</b><span>приславших ответ</span></article><article class='good'><b>0</b><span>прошли оба опроса<span class='emp-kpi-note'>клиентское 13 · сотрудника 0</span></span></article><article class='warn'><b>13</b><span>прошли только один</span></article></div>
+    <div class="emp-legend">
+      <span><i class="yes"></i> прошли оба опроса</span>
+      <span><i class="need"></i> прошли один из двух</span>
+      <span><i class="no"></i> не начинали</span>
+      <small>источник — файлы storage/output, только на чтение</small>
+    </div>
+
+    <h2 class="sec">Реестр сотрудников</h2>
+    <div class="emp-controls">
+      <div class="emp-seg" role="group" aria-label="Фильтр статуса">
+        <button class="active" data-emp-filter="all">Все <span>13</span></button>
+        <button data-emp-filter="both">Оба опроса <span>0</span></button>
+        <button data-emp-filter="one">Один опрос <span>13</span></button>
+        
+        <button data-emp-filter="coverage">По подразделениям</button>
+      </div>
+      <select id="emp-management" class="emp-select" aria-label="Фильтр по управлению"></select>
+      <input id="emp-search" class="emp-search" type="search" placeholder="Поиск: ФИО, отдел, должность…" aria-label="Поиск по реестру">
+      <span id="emp-count" class="emp-count"></span>
+    </div>
+
+    <div class="panel emp-panel" id="emp-table-panel">
+      <div class="emp-table-scroll"><table class="emp-table">
+        <thead><tr>
+          <th data-sort="fio">ФИО</th>
+          <th data-sort="management">Управление / Отдел</th>
+          <th>Должность</th>
+          <th>Клиентское</th>
+          <th>Сотрудника</th>
+          <th>Последняя активность</th>
+          <th data-sort="status">Статус</th>
+        </tr></thead><tbody id="emp-body"></tbody>
+      </table></div>
+    </div>
+
+    <div class="panel emp-coverage" id="emp-coverage" hidden>
+      <div class="emp-coverage-note"><b>Покрытие</b> = сотрудники, прошедшие опрос (оба или один из двух сценариев) / все приславшие хоть что-то по подразделению (без справочника штат неизвестен).</div>
+      <h3>По управлениям</h3><div id="emp-bars-management" class="emp-bars"></div>
+      <h3>По отделам</h3><div id="emp-bars-department" class="emp-bars"></div>
+    </div>
+
+    <footer>mobile-opros-bot &middot; страница только на чтение, ничего не пишет</footer>
+  </section>
+</div>
+<script>
+(function(){
+  const stats = {"total": 13, "both": 0, "one": 13, "none": 0, "roster_known": false};
+  const roster = [{"fio": "Абдуллин Венер Фаритович", "management": "Управление цифрового развития", "department": "Отдел бизнес-анализа", "position": "Аналитик данных", "s1": true, "s1_score": 0.7, "s2": false, "s2_score": null, "status": "one", "last": "2026-08-21 10:58"}, {"fio": "Блохина Евгения Сергеевна", "management": "Управление безопасности", "department": "Отдел информационной безопасности", "position": "Специалист информационной безопасности", "s1": true, "s1_score": 0.6, "s2": false, "s2_score": null, "status": "one", "last": "2026-08-21 13:29"}, {"fio": "Деев Виталий Валерьевич", "management": "Управление безопасности", "department": "Правовой отдел", "position": "Руководитель юридической службы", "s1": true, "s1_score": 0.65, "s2": false, "s2_score": null, "status": "one", "last": "2026-08-21 13:36"}, {"fio": "Золотых Светлана Витальевна", "management": "Коммерческое управление", "department": "Отдел инноваций", "position": "Аналитик данных", "s1": true, "s1_score": 0.2, "s2": false, "s2_score": null, "status": "one", "last": "2026-08-21 08:54"}, {"fio": "Лаврова Наталья Евгеньевна", "management": "Коммерческое управление", "department": "Отдел продаж техники", "position": "Руководитель сети комиссионных магазинов техники", "s1": true, "s1_score": 0.6, "s2": false, "s2_score": null, "status": "one", "last": "2026-08-21 14:04"}, {"fio": "Палиенко Алексей Вячеславович", "management": "Коммерческое управление", "department": "Отдел продаж техники", "position": "Заместитель руководителя сети комиссионных магазинов техники", "s1": true, "s1_score": 0.6, "s2": false, "s2_score": null, "status": "one", "last": "2026-08-21 14:00"}, {"fio": "Петряева Карина Ринатовна", "management": "Управление безопасности", "department": "Правовой отдел", "position": "Юрист", "s1": true, "s1_score": 0.95, "s2": false, "s2_score": null, "status": "one", "last": "2026-08-21 13:52"}, {"fio": "Пронин Артем Вадимович", "management": "Управление цифрового развития", "department": "Отдел бизнес-анализа", "position": "Бизнес-аналитик", "s1": true, "s1_score": 0.35, "s2": false, "s2_score": null, "status": "one", "last": "2026-08-21 13:06"}, {"fio": "Садыков Айбулат Загитович", "management": "Коммерческое управление", "department": "Отдел инноваций", "position": "Аналитик данных", "s1": true, "s1_score": 0.75, "s2": false, "s2_score": null, "status": "one", "last": "2026-08-21 13:09"}, {"fio": "Сакриев Алексей Владимирович", "management": "Коммерческое управление", "department": "КМ Золото", "position": "Менеджер оптовых закупок и продаж", "s1": true, "s1_score": 0.9, "s2": false, "s2_score": null, "status": "one", "last": "2026-08-21 13:37"}, {"fio": "Хазиев Тимур Ильнурович", "management": "Управление цифрового развития", "department": "Заместитель директора цифрового развития по аналитике и проектам", "position": "Заместитель директора цифрового развития по аналитике и проектам", "s1": true, "s1_score": 0.4, "s2": false, "s2_score": null, "status": "one", "last": "2026-08-21 09:24"}, {"fio": "Хусаинова Дарья Игоревна", "management": "Управление персонала", "department": "Отдел обучения и развития", "position": "Менеджер по обучению", "s1": true, "s1_score": 0.1, "s2": false, "s2_score": null, "status": "one", "last": "2026-08-21 14:03"}, {"fio": "Чусовитина Аделина Эриковна", "management": "Управление цифрового развития", "department": "Отдел бизнес-анализа", "position": "Руководитель отдела бизнес-анализа", "s1": true, "s1_score": 0.9, "s2": false, "s2_score": null, "status": "one", "last": "2026-08-21 09:12"}];
+  const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const body = document.getElementById('emp-body'), count = document.getElementById('emp-count');
+  const mgmtSel = document.getElementById('emp-management'), search = document.getElementById('emp-search');
+  const tablePanel = document.getElementById('emp-table-panel'), coverage = document.getElementById('emp-coverage');
+  const labels = {both:'Прошёл оба', one:'Прошёл один', none:'Не начал'};
+  let filter = 'all', sortKey = 'fio', sortDir = 1;
+
+  const units = [...new Set(roster.map(x => x.management))].sort((a, b) => a.localeCompare(b, 'ru'));
+  mgmtSel.innerHTML = '<option value="all">Все управления</option>' + units.map(u => `<option>${esc(u)}</option>`).join('');
+
+  function visible(){
+    const q = search.value.trim().toLocaleLowerCase('ru');
+    return roster.filter(x => {
+      const byMain = filter === 'all' || filter === 'coverage' || filter === x.status;
+      const byUnit = mgmtSel.value === 'all' || x.management === mgmtSel.value;
+      const hay = [x.fio, x.management, x.department, x.position].join(' ').toLocaleLowerCase('ru');
+      return byMain && byUnit && (!q || hay.includes(q));
+    }).sort((a, b) => {
+      const av = a[sortKey] ?? '', bv = b[sortKey] ?? '';
+      return String(av).localeCompare(String(bv), 'ru', {numeric: true}) * sortDir;
+    });
+  }
+
+  function mark(on, score){
+    if (!on) return '<span class="emp-mark off">&mdash;</span>';
+    const pct = (score === null || score === undefined) ? '' : ` <span class="emp-sub" style="display:inline">${Math.round(score * 100)}%</span>`;
+    return `<span class="emp-mark on">&#10003;</span>${pct}`;
+  }
+
+  function rowHtml(x){
+    return `<tr data-status="${esc(x.status)}">
+      <td><span class="emp-fio">${esc(x.fio)}</span></td>
+      <td><strong>${esc(x.management)}</strong><span class="emp-sub">${esc(x.department)}</span></td>
+      <td>${esc(x.position || '\u2014')}</td>
+      <td>${mark(x.s1, x.s1_score)}</td>
+      <td>${mark(x.s2, x.s2_score)}</td>
+      <td class="emp-sub">${esc(x.last || '\u2014')}</td>
+      <td><span class="emp-pill ${esc(x.status)}">${labels[x.status]}</span></td>
+    </tr>`;
+  }
+
+  function bars(arr, key, target){
+    const groups = {};
+    arr.forEach(x => (groups[x[key]] = groups[x[key]] || []).push(x));
+    target.innerHTML = Object.entries(groups).map(([name, rows]) => {
+      const yes = rows.filter(x => x.status === 'both').length;
+      const need = rows.filter(x => x.status === 'one').length;
+      const no = rows.filter(x => x.status === 'none').length;
+      const total = rows.length, p = Math.round(yes / total * 1000) / 10;
+      return {name, yes, need, no, total, p};
+    }).sort((a, b) => a.p - b.p || b.total - a.total || a.name.localeCompare(b.name, 'ru'))
+      .map(g => `<div class="emp-bar">
+        <div class="emp-bar-name">${esc(g.name)} <span class="emp-sub">${g.yes} оба \u00b7 ${g.need} один \u00b7 ${g.no} не начал</span></div>
+        <div class="emp-bar-track"><i class="yes" style="width:${g.yes / g.total * 100}%"></i><i class="need" style="width:${g.need / g.total * 100}%"></i><i class="no" style="width:${g.no / g.total * 100}%"></i></div>
+        <div class="emp-bar-value"><b>${g.p}%</b><br>${g.yes}/${g.total}</div>
+      </div>`).join('') || '<div class="emp-sub">Нет данных</div>';
+  }
+
+  function render(){
+    const arr = visible();
+    const covMode = filter === 'coverage';
+    tablePanel.hidden = covMode;
+    coverage.hidden = !covMode;
+    count.textContent = `показано ${arr.length} из ${stats.total}`;
+    if (covMode) {
+      bars(arr, 'management', document.getElementById('emp-bars-management'));
+      bars(arr, 'department', document.getElementById('emp-bars-department'));
+      return;
+    }
+    body.innerHTML = arr.map(rowHtml).join('') || '<tr><td colspan="7" class="emp-sub" style="padding:16px">Нет данных</td></tr>';
+  }
+
+  if (!stats.roster_known) {  // нет current.json: «не начал» недостижим, знаменатель = приславшие, а не штат
+    const noneBtn = document.querySelector('[data-emp-filter="none"]');
+    if (noneBtn) noneBtn.remove();
+  }
+
+  document.querySelectorAll('[data-emp-filter]').forEach(b => b.addEventListener('click', () => {
+    filter = b.dataset.empFilter;
+    document.querySelectorAll('[data-emp-filter]').forEach(x => x.classList.toggle('active', x === b));
+    render();
+  }));
+  mgmtSel.addEventListener('change', render);
+  search.addEventListener('input', render);
+  document.querySelectorAll('.emp-table th[data-sort]').forEach(th => th.addEventListener('click', () => {
+    if (sortKey === th.dataset.sort) sortDir *= -1; else { sortKey = th.dataset.sort; sortDir = 1; }
+    render();
+  }));
+  render();
+})();
+</script>
+</body>
+</html>
