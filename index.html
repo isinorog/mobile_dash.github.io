@@ -143,7 +143,7 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);font-si
       <div class="h-sub">Интервью сотрудников через Telegram-бота: сценарий «клиентское мобильное приложение» и сценарий «мобильное приложение для сотрудников». Свод читается напрямую из готовых документов бота (storage/output), без обращения к БД.</div>
     </div>
     <div class="h-meta">
-      <div class="d">снимок на 26.08.2026 12:18:10</div>
+      <div class="d">снимок на 26.08.2026 12:30:49</div>
       <div class="auto">статический снимок — обновляется пересборкой, не сам по себе</div>
     </div>
   </div></header>
@@ -163,7 +163,8 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);font-si
       <div class="emp-seg" role="group" aria-label="Фильтр статуса">
         <button class="active" data-emp-filter="all">Все <span>185</span></button>
         <button data-emp-filter="both">Оба опроса <span>25</span></button>
-        <button data-emp-filter="one">Один опрос <span>104</span></button>
+        <button data-emp-filter="client">Клиент <span>125</span></button>
+        <button data-emp-filter="office">Офис <span>29</span></button>
         <button data-emp-filter="none">Не начали <span>56</span></button>
         <button data-emp-filter="retail">Товаровед/скупщик <span>75</span></button>
         <button data-emp-filter="coverage">По подразделениям</button>
@@ -215,8 +216,14 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);font-si
       // «Товаровед/скупщик» — своя вкладка: там показывается только розница, а во всех
       // остальных вкладках (включая «Все» и «По подразделениям») она скрыта — по запросу
       // пользователя 2026-08-25, чтобы не смешивалась с основным реестром.
+      // «Клиент»/«Офис» — по запросу пользователя 2026-08-26 заменили вкладку «Один опрос»
+      // (которая схлопывала «прошёл ровно один из двух» в одну группу, не говоря, какой
+      // именно): показывают всех, кто сдал соответствующий сценарий (s1/s2), независимо от
+      // второго — то есть прошедшие оба опроса попадают в обе вкладки одновременно.
       const byMain = filter === 'retail'
         ? x.retail
+        : filter === 'client' ? (!x.retail && x.s1)
+        : filter === 'office' ? (!x.retail && x.s2)
         : !x.retail && (filter === 'all' || filter === 'coverage' || filter === x.status);
       const byUnit = mgmtSel.value === 'all' || x.management === mgmtSel.value;
       const hay = [x.fio, x.management, x.department, x.position].join(' ').toLocaleLowerCase('ru');
